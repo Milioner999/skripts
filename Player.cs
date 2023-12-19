@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 { 
@@ -10,6 +11,11 @@ public class Player : MonoBehaviour
     public int heatl = 10;
     //Урон
     public int damage = 2;
+
+    public AudioSource audioSource;
+
+    public AudioClip damageSound;
+
 
     //Количество монет
     public int coins;
@@ -34,9 +40,18 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damage)
     {
         heatl -= damage;
-        print("Heatl:" + heatl);
-    }
+        if (heatl > 0)
+        {
+            audioSource.PlayOneShot(damageSound);
+            print("Здоровье игрока: " + heatl);
 
+        }
+        else
+        {
+            int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(sceneIndex);
+        }
+    }
     public void CollectCoins()
     {
         coins += 1;
